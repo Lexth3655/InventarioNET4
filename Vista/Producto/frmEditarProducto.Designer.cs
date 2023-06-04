@@ -1,7 +1,6 @@
-﻿
-namespace Vista
+﻿namespace Vista
 {
-    partial class MDI_Principal
+    partial class frmEditarProducto
     {
         /// <summary>
         /// Required designer variable.
@@ -29,21 +28,10 @@ namespace Vista
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // MDI_Principal
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(949, 576);
-            this.IsMdiContainer = true;
-            this.MaximizeBox = false;
-            this.Name = "MDI_Principal";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MDI_Principal";
-            this.Load += new System.EventHandler(this.MDI_Principal_Load);
-            this.ResumeLayout(false);
-
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Text = "frmEditarProducto";
         }
 
         #endregion

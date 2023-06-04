@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Modelo;
 using Conexion;
 using System.IO;
+using System.Reflection;
 
 namespace Vista
 {
@@ -47,13 +48,48 @@ namespace Vista
                 //Construccion de submenu
                 foreach (SubMenu objSubMenu in objMenu.listaSubMenu)
                 {
-                    ToolStripMenuItem menuHijo = new ToolStripMenuItem(objSubMenu.nombreSub);
+                    ToolStripMenuItem menuHijo = new ToolStripMenuItem(objSubMenu.nombreSub, null, clic_en_Menu, objSubMenu.nombreFormulario);
                     menuPadre.DropDownItems.Add(menuHijo);
                 }
             }
 
             this.MainMenuStrip = miMenu;
             Controls.Add(miMenu);
+        }
+
+        //Metodo para clickear en el container
+        private void clic_en_Menu(object sender, System.EventArgs e)
+        {
+            ToolStripMenuItem menuSeleccionado = (ToolStripMenuItem)sender;
+            
+            Assembly asm = Assembly.GetEntryAssembly();//obtenie el proceso del ejecutable, es decir los elemento dentro del ejecutable
+            Type elemento = asm.GetType(asm.GetName().Name + "." + menuSeleccionado.Name);
+
+            if (elemento == null )
+            {
+                MessageBox.Show("Formulario no encontrado");
+            }
+            else
+            {
+                Form formularioCreado = (Form)Activator.CreateInstance(elemento);
+                //validacion si existe el formulario hijo dentro del formulario padre o container
+                int auxEncontrado = this.MdiChildren.Where(x => x.Name == formularioCreado.Name).ToList().Count();
+
+                if(auxEncontrado != 0 )
+                {
+                    //si lo encuentra que no haga nada 
+                   ((Form)(this.MdiChildren.Where(x => x.Name == formularioCreado.Name).FirstOrDefault())).WindowState = FormWindowState.Normal;
+                    ((Form)(this.MdiChildren.Where(x => x.Name == formularioCreado.Name).FirstOrDefault())).Activate();
+                }
+                else
+                {
+                    formularioCreado.MdiParent = this;
+                    formularioCreado.Show();
+                }
+
+                
+            }
+            
         }
     }
 }
